@@ -1,0 +1,31 @@
+extends layout.pug
+
+block content
+    h1 form
+    form(action='/form' method='post')
+      div
+        label(for="toDoText") do to
+        input(id='toDoText' name='toDoText')
+        input(id='addBtn' type='submit' value="add")
+    div#root
+      ol#ol
+        each toDo in toDosArr
+          li.li= toDo.str
+            form.form(action='/edit/'+toDo.id method='post')
+              button edit
+            form.form(action='/del/'+toDo.id method='post')
+              button delete          
+block foot
+  p hello    
+  
+        
+        
+  //- form(action='/form' method='post')
+  //- input(id='addBtn' type='submit' value="add")
+  
+
+        
+      //-   label(for="userpasswd") password
+      //-   input(id='userpasswd' name='password' type='password')
+  
+    

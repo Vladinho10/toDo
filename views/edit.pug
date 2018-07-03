@@ -1,0 +1,13 @@
+extends layout.pug
+
+block content
+  h1= title
+  form(action='/demo/'+obj.id method='post')
+    div
+      label(for="toDoText") do to
+      input(id='toDoText' name='toDoText' value=obj.str) 
+      input(id='addBtn' type='submit' value="save")
+  
+
+block foot
+  p Footer

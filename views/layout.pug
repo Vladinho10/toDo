@@ -1,0 +1,14 @@
+head
+    //- title My Site - #{title}
+    title= title
+    style  
+      include style.css
+body
+    div
+        block content
+    
+    footer
+        block foot
+            #footer.class
+            p some footer content
+    script(src='main.js')
