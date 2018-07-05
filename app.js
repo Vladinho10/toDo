@@ -4,7 +4,6 @@ const bodyParser = require("body-parser")
 , app = express()
 , _port = 3000;
 
-// console.log(__dirname+"/public");
 app.use(express.static(__dirname+"/public"));
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -20,7 +19,6 @@ app.get('/', (req, res) => {
   res.render(page, {
     toDosArr: toDoList
   } )
-  console.log('request');
 });
 
 let id = 0;
