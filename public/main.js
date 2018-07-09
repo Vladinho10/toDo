@@ -8,8 +8,9 @@ class CreateToDo extends Component {
   addButtonClickedHandler() {
     const data = {
       toDo: inp.value,
-      id: id++
+      // id: id
     }
+    // id++;
     const options = {
       method: 'POST',
       body: JSON.stringify(data),
@@ -57,7 +58,7 @@ class OrderList extends Component {
         'Content-Type': 'application/json'
       }
     };
-    const f =  fetch(`/api/todos/${elId}`, options);
+    const f = fetch(`/api/todos/${elId}`, options);
     f.then((res)=>{
       return  res.json();
     }).then((toDosArr)=>{
@@ -68,9 +69,9 @@ class OrderList extends Component {
           console.log(clientArr);
     });
 }
-    deleteHandler(elId, deleteValue){
+    deleteHandler(elId){
       const data = {
-        toDo: deleteValue,
+        // toDo: deleteValue,
         id: elId
       };
       console.log(data);
@@ -99,9 +100,9 @@ class OrderList extends Component {
     const items = title.map((el, i, arr)=>{
 
         return  `<li> <input id='id${el.id}mtom' value='${el.toDo}'>
-                    <button id='edit' onclick='editHandler(${el.id}, id${el.id}mtom.value)' > edit/save </button>
-                    <button id='del' onclick='deleteHandler(${el.id}, id${el.id}mtom.value)' > delete </button>
-                </li>`
+                    <button id='edit${el.id}' onclick='editHandler(${el.id}, id${el.id}mtom.value)' > edit/save </button>
+                    <button id='del${el.id}' onclick='deleteHandler(${el.id})'> delete </button>
+                </li>`                              // id${el.id}mtom.value
     });
     return (`
             <ol id='ol'>${items.join('')}</ol>
@@ -120,7 +121,7 @@ class App extends Component {
   }
 }
 
-let id = 0;
+// let id = 0;
 let clientArr = [];
 
 render(App, {

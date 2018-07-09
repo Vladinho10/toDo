@@ -1,7 +1,19 @@
 const bodyParser = require("body-parser")
 , express = require("express")
 , app = express()
-, _port = 3000;
+, mongoose = require("mongoose")
+, Schema = mongoose.Schema
+, Task = require('./taskSchema')
+, _port = 3000
+, _urlDB = "mongodb://localhost:27017/toDo"
+, db = mongoose.connection;
+
+
+mongoose.connect(_urlDB, { useNewUrlParser: true });
+db.once("open", function () {
+    console.log("you connected");
+});
+
 
 app.use(express.static(__dirname+"/public"));
 app.use(express.static(__dirname+"/views"));
@@ -20,40 +32,30 @@ app.get('/', (req, res) => {
 app.get('/api/todos', (req, res) => {
   res.json(toDoList)
 });
+let id = 0
 
 app.post('/api/todos', (req, res)=>{
-  toDoList.push(req.body);
+  toDoList.push({toDo: req.body.toDo, id: id++});
   res.json(toDoList)
 });
 
 app.put('/api/todos/:id', (req, res)=>{
-  let idNumber = req.params.id;
-  // console.log(idNumber);
-  // console.log( 'reqbody', req.body);
+  console.log( 'reqbody', req.body);
   let elem = toDoList.find((el) => {
     return el.id==req.params.id
   });
-  // console.log('elem befor',elem);
-  // console.log('befor', toDoList);
-  toDoList[idNumber].toDo = req.body.toDo;
-  // elem.toDo = req.body.toDoText;
-  // console.log('elem',elem);
-  // console.log('after', toDoList);
-
-  // console.log('saveeeeeeeeeeeee');
-  // let num = toDoList.indexOf(elem);
+  elem.toDo = req.body.toDo;
   res.json(toDoList)
 
 });
 
 app.delete('/api/todos/:id', (req, res)=>{
-  let idNumber = req.params.id;
+  console.log( 'reqbody', req.body);
   let elem = toDoList.find((el) => {
     return el.id==req.params.id
   });
-  toDoList.splice(idNumber, 1);
+  toDoList.splice(toDoList.indexOf(elem), 1);
   res.json(toDoList)
-
 });
 
 app.listen(_port, () => console.log(`${_port}`));
