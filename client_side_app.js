@@ -8,12 +8,10 @@ const bodyParser = require("body-parser")
 , _urlDB = "mongodb://localhost:27017/toDo"
 , db = mongoose.connection;
 
-
 mongoose.connect(_urlDB, { useNewUrlParser: true });
 db.once("open", function () {
     console.log("you connected");
 });
-
 
 app.use(express.static(__dirname+"/public"));
 app.use(express.static(__dirname+"/views"));
@@ -30,32 +28,20 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/todos', (req, res) => {
-  res.json(toDoList)
+  Task.getAllData(res);
 });
-let id = 0
 
 app.post('/api/todos', (req, res)=>{
-  toDoList.push({toDo: req.body.toDo, id: id++});
-  res.json(toDoList)
+  Task.insertTask({toDo: req.body.toDo}, res);
 });
 
 app.put('/api/todos/:id', (req, res)=>{
-  console.log( 'reqbody', req.body);
-  let elem = toDoList.find((el) => {
-    return el.id==req.params.id
-  });
-  elem.toDo = req.body.toDo;
-  res.json(toDoList)
-
+  // console.log( 'reqbody', req.body);
+  Task.getByIdAndUpdate(req.params.id, req.body.toDo, res);
 });
 
 app.delete('/api/todos/:id', (req, res)=>{
-  console.log( 'reqbody', req.body);
-  let elem = toDoList.find((el) => {
-    return el.id==req.params.id
-  });
-  toDoList.splice(toDoList.indexOf(elem), 1);
-  res.json(toDoList)
+  Task.getByIdAndDelete(req.params.id, res);
 });
 
 app.listen(_port, () => console.log(`${_port}`));

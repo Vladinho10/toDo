@@ -8,9 +8,7 @@ class CreateToDo extends Component {
   addButtonClickedHandler() {
     const data = {
       toDo: inp.value,
-      // id: id
     }
-    // id++;
     const options = {
       method: 'POST',
       body: JSON.stringify(data),
@@ -25,7 +23,7 @@ class CreateToDo extends Component {
             render(App, {
               title: toDosArr
             });
-            console.log(clientArr);
+            console.log(`clientArr from Add`, clientArr);
       });
     }
   }
@@ -45,12 +43,15 @@ class OrderList extends Component {
     window.editHandler = this.editHandler;
     window.deleteHandler = this.deleteHandler
   }
-  editHandler(elId, editValue){
+  editHandler(elId){
+    const tempId = document.getElementById(elId);
+    console.log(tempId.value);
+
     const data = {
-      toDo: editValue,
+      toDo: tempId.value,
       id: elId
     };
-    console.log(data);
+    console.log('edited data', data);
     const options = {
       method: 'PUT',
       body: JSON.stringify(data),
@@ -66,12 +67,11 @@ class OrderList extends Component {
           render(App, {
             title: toDosArr
           });
-          console.log(clientArr);
+          console.log('clientArr', clientArr);
     });
 }
     deleteHandler(elId){
       const data = {
-        // toDo: deleteValue,
         id: elId
       };
       console.log(data);
@@ -90,7 +90,7 @@ class OrderList extends Component {
             render(App, {
               title: toDosArr
             });
-            console.log(clientArr);
+            // console.log(clientArr);
       });
 
   }
@@ -99,10 +99,11 @@ class OrderList extends Component {
     const {title} = this.props;
     const items = title.map((el, i, arr)=>{
 
-        return  `<li> <input id='id${el.id}mtom' value='${el.toDo}'>
-                    <button id='edit${el.id}' onclick='editHandler(${el.id}, id${el.id}mtom.value)' > edit/save </button>
-                    <button id='del${el.id}' onclick='deleteHandler(${el.id})'> delete </button>
-                </li>`                              // id${el.id}mtom.value
+        return  `<li> <input id=${el._id} value=${el.toDo}>
+                    <button onclick="editHandler('${el._id}')"> edit/save </button>
+                    <button onclick="deleteHandler('${el._id}')"> delete </button>
+                </li>`
+
     });
     return (`
             <ol id='ol'>${items.join('')}</ol>
@@ -121,7 +122,6 @@ class App extends Component {
   }
 }
 
-// let id = 0;
 let clientArr = [];
 
 render(App, {
